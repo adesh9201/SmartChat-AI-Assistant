@@ -1,8 +1,18 @@
-# AI Chat Interface with Plugin System
+# Smartchat AI Assistant with Plugin System
 
 A modern, extensible chat interface that combines natural language processing with plugin-based functionality. Built with React, Node.js, and MongoDB.
 
-![Chat Interface Screenshot](./assets/logo.png)
+## 🚀 Live Demo
+
+🔗 [Click here to view the live app](https://smartchat-ai-assistant.onrender.com)
+
+This is a fully functional AI-powered chat assistant built with React, Node.js, Express, and Tailwind CSS. Try commands like:
+
+- `/weather Delhi`
+- `/calc 12+3*2`
+- `/define innovation`
+
+![Chat Interface Screenshot](https://github.com/adesh9201/SmartChat-AI-Assistant/blob/main/frontend/src/assets/logo.png)
 
 ## Table of Contents
 
@@ -507,10 +517,10 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## Contact
 
-**Project Maintainer**: [Your Name]
-- **Email**: your.email@example.com
-- **GitHub**: [@yourusername](https://github.com/adesh9201)
-- **LinkedIn**: [Your LinkedIn](https://www.linkedin.com/in/adesh-mishra-221816297/)
+**Project Maintainer**: [Adesh Mishra]
+- **Email**: panditadesh123@gmail.com
+- **GitHub**: [https://github.com/adesh9201](https://github.com/adesh9201)
+- **LinkedIn**: [https://www.linkedin.com/in/adesh-mishra-221816297](https://www.linkedin.com/in/adesh-mishra-221816297/)
 
 **Project Repository**: [https://github.com/adesh9201/SmartChat-AI-Assistant](https://github.com/adesh9201/SmartChat-AI-Assistant)
 
