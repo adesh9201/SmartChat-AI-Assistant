@@ -11,7 +11,12 @@ dotenv.config();
 const app = express();
 
 // Middleware
-app.use(cors());
+const allowedOrigin = process.env.CORS_ORIGIN;
+
+app.use(cors({
+    origin: allowedOrigin,
+    credentials: true, // if you're using cookies or auth headers
+}));
 app.use(express.json());
 
 // Database connection
