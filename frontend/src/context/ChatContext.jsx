@@ -7,6 +7,7 @@ export const ChatProvider = ({ children }) => {
     const [messages, setMessages] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
 
+    // Load initial messages
     useEffect(() => {
         const fetchMessages = async () => {
             try {
@@ -28,6 +29,7 @@ export const ChatProvider = ({ children }) => {
         try {
             setIsLoading(true);
 
+            // Save user message
             const userMessage = {
                 sender: 'user',
                 content,
@@ -35,11 +37,12 @@ export const ChatProvider = ({ children }) => {
                 timestamp: new Date().toISOString()
             };
 
-            const userResponse = await axios.get(`${import.meta.env.VITE_API_PROXY}/api/chat`, userMessage);
+            const userResponse = await axios.post(`${import.meta.env.VITE_API_PROXY}/api/chat`, userMessage);
             setMessages(prev => [...prev, userResponse.data]);
 
             let assistantMessage;
 
+            // Plugin command handling
             if (content.startsWith('/')) {
                 const [command, ...args] = content.slice(1).split(' ');
                 const query = args.join(' ');
@@ -63,10 +66,11 @@ export const ChatProvider = ({ children }) => {
                         };
                 }
             } else {
+                // Fallback to natural language
                 assistantMessage = await handleNaturalLanguage(content);
             }
 
-            const assistantResponse = await axios.get(`${import.meta.env.VITE_API_PROXY}/api/chat`, assistantMessage);
+            const assistantResponse = await axios.post(`${import.meta.env.VITE_API_PROXY}/api/chat`, assistantMessage);
             setMessages(prev => [...prev, assistantResponse.data]);
 
         } catch (error) {
@@ -77,7 +81,7 @@ export const ChatProvider = ({ children }) => {
                 type: 'text',
                 timestamp: new Date().toISOString()
             };
-            const fallbackResponse = await axios.get(`${import.meta.env.VITE_API_PROXY}/api/chat`, fallback);
+            const fallbackResponse = await axios.post(`${import.meta.env.VITE_API_PROXY}/api/chat`, fallback);
             setMessages(prev => [...prev, fallbackResponse.data]);
         } finally {
             setIsLoading(false);
@@ -96,8 +100,13 @@ export const ChatProvider = ({ children }) => {
     const fetchPluginMessage = async (pluginName, query) => {
         try {
             const response = await axios.get(`${import.meta.env.VITE_API_PROXY}/api/${pluginName}/${query}`);
-            return createPluginMessage(pluginName, `${pluginName[0].toUpperCase() + pluginName.slice(1)}: ${query}`, response.data);
+            return createPluginMessage(
+                pluginName,
+                `${pluginName[0].toUpperCase() + pluginName.slice(1)}: ${query}`,
+                response.data
+            );
         } catch (error) {
+            console.error(`Plugin error for ${pluginName}:`, error);
             return {
                 sender: 'assistant',
                 content: `Couldn't get result for /${pluginName} ${query}`,
@@ -127,7 +136,7 @@ export const ChatProvider = ({ children }) => {
 
         return {
             sender: 'assistant',
-            content: 'I can help with weather, calculations, and definitions. Try commands like /weather London, /calc 2+2, or /define hello.',
+            content: 'I can help with weather, calculations, and definitions. Try commands like /weather Delhi, /calc 2+2, or /define hello.',
             type: 'text',
             timestamp: new Date().toISOString()
         };
