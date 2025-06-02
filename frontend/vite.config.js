@@ -6,7 +6,7 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: 'https://smartchat-ai-assistant-server.onrender.com/', // your backend server
+        target: 'https://smartchat-ai-assistant-server.onrender.com', // your backend server
         changeOrigin: true
       }
     }
