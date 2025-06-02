@@ -11,7 +11,7 @@ export const ChatProvider = ({ children }) => {
         const fetchMessages = async () => {
             try {
                 setIsLoading(true);
-                const response = await axios.get('/api/chat');
+                const response = await axios.get(`${import.meta.env.VITE_API_PROXY}/api/chat`);
                 const data = Array.isArray(response.data) ? response.data : response.data?.data || [];
                 setMessages(data);
             } catch (error) {
@@ -35,7 +35,7 @@ export const ChatProvider = ({ children }) => {
                 timestamp: new Date().toISOString()
             };
 
-            const userResponse = await axios.post('/api/chat', userMessage);
+            const userResponse = await axios.get(`${import.meta.env.VITE_API_PROXY}/api/chat`, userMessage);
             setMessages(prev => [...prev, userResponse.data]);
 
             let assistantMessage;
@@ -66,7 +66,7 @@ export const ChatProvider = ({ children }) => {
                 assistantMessage = await handleNaturalLanguage(content);
             }
 
-            const assistantResponse = await axios.post('/api/chat', assistantMessage);
+            const assistantResponse = await axios.get(`${import.meta.env.VITE_API_PROXY}/api/chat`, assistantMessage);
             setMessages(prev => [...prev, assistantResponse.data]);
 
         } catch (error) {
@@ -77,7 +77,7 @@ export const ChatProvider = ({ children }) => {
                 type: 'text',
                 timestamp: new Date().toISOString()
             };
-            const fallbackResponse = await axios.post('/api/chat', fallback);
+            const fallbackResponse = await axios.get(`${import.meta.env.VITE_API_PROXY}/api/chat`, fallback);
             setMessages(prev => [...prev, fallbackResponse.data]);
         } finally {
             setIsLoading(false);
@@ -95,7 +95,7 @@ export const ChatProvider = ({ children }) => {
 
     const fetchPluginMessage = async (pluginName, query) => {
         try {
-            const response = await axios.get(`/api/${pluginName}/${query}`);
+            const response = await axios.get(`${import.meta.env.VITE_API_PROXY}/api/${pluginName}/${query}`);
             return createPluginMessage(pluginName, `${pluginName[0].toUpperCase() + pluginName.slice(1)}: ${query}`, response.data);
         } catch (error) {
             return {
